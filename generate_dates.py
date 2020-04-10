@@ -3,38 +3,27 @@
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 
 import json
-from multiprocessing import Pool
-from typing import NamedTuple
-import datetime
+import subprocess
+import os
 
-from liferay_header_converter import replace_header, all_files, get_latest_date
-
-
-class DateResult(NamedTuple):
-    file_: str
-    date: datetime.datetime
-
-
-def get_latest_date_wrapper(file_):
-    result = DateResult(file_, get_latest_date(file_))
-    print(file_)
-    return result
+from liferay_header_converter import all_files, get_latest_date, ROOT_PATH
 
 
 def main():
     dates = dict()
-    pool = Pool(processes=16)
 
-    results = pool.map(get_latest_date_wrapper, all_files())
+    # Remove all untracked files
+    subprocess.run(["git", "clean", "-dxf"])
+    # Change the mtime of all files to the last time they were modified. Through
+    # some voodoo in `restore-mtime`, this is much quicker than requesting the
+    # last modified time via `git log`.
+    subprocess.run(["git", "restore-mtime"])
 
-    pool.close()
-    pool.join()
+    for file_ in all_files():
+        dates[file_] = get_latest_date(file_).isoformat()
 
-    for result in results:
-        dates[result.file_] = result.date.isoformat()
-
-    with open("dates.json", "w") as fp:
-        json.dump(dates, fp)
+    with open(os.path.join(ROOT_PATH, "dates.json"), "w") as fp:
+        json.dump(dates, fp, indent=1)
 
 
 if __name__ == "__main__":

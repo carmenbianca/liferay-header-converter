@@ -50,6 +50,9 @@ HEADERS = {
  */""",
 }
 
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+ROOT_PATH = os.path.dirname(DIR_PATH)
+
 
 def all_files():
     files = glob.glob("**/*", recursive=True)
@@ -59,11 +62,8 @@ def all_files():
 
 
 def get_latest_date(file_):
-    command = ["git", "log", "-n", "1", r"--pretty=format:%aI", file_]
-    result = subprocess.run(command, stdout=subprocess.PIPE)
-    date = result.stdout.decode("utf-8").strip()
-    print(date)
-    return datetime.datetime.fromisoformat(date)
+    mtime = os.path.getmtime(file_)
+    return datetime.datetime.fromtimestamp(mtime)
 
 
 def replace_header(file_):
@@ -72,7 +72,9 @@ def replace_header(file_):
 
     for original, replacement in HEADERS.items():
         if original in contents:
-            contents.replace(original, replacement.format(year=get_latest_year(file_)))
+            contents = contents.replace(
+                original, replacement.format(year=get_latest_date(file_).year)
+            )
             break
     else:
         raise Exception("No header replaced")
