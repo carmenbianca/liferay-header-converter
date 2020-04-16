@@ -57,7 +57,7 @@ ROOT_PATH = os.path.dirname(DIR_PATH)
 def all_files():
     files = glob.glob("**/*", recursive=True)
     for file_ in files:
-        if os.path.isfile(file_):
+        if os.path.isfile(file_) and not file_.startswith("modules/third-party"):
             yield file_
 
 
