@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: LGPL-2.0-or-later
+# SPDX-License-Identifier: LGPL-2.1-or-later
 #
 # SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
 
@@ -10,7 +10,7 @@ from liferay_header_converter import ORIGINAL, LEN_ORIGINAL
 
 
 def main():
-    files = glob.glob("**/*.js", recursive=True)
+    files = glob.glob("**/*.java", recursive=True)
     result = dict()
 
     for file_ in files:

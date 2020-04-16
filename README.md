@@ -1,7 +1,8 @@
 # Liferay Header Converter
 
 This is a quickly written tool intended for the replacement of Liferay's
-headers.
+headers. It is written as part of my educational internship at Liferay. The
+sending institution is NHL Stenden, Leeuwarden.
 
 In short, these headers:
 
