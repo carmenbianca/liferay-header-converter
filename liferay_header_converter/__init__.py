@@ -25,7 +25,7 @@ LEN_ORIGINAL = len(ORIGINAL)
 
 # original, replacement
 HEADERS = {
-    ORIGINAL: """/**
+    ORIGINAL: """/*
  * SPDX-FileCopyrightText: © {year} Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-2.1-or-later
  */""",
@@ -44,7 +44,7 @@ HEADERS = {
  *
  * You should have received a copy of the GNU General Public License along with
  * Liferay Social Office. If not, see http://www.gnu.org/licenses/agpl-3.0.html.
- */""": """/**
+ */""": """/*
  * SPDX-FileCopyrightText: © {year} Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */""",
