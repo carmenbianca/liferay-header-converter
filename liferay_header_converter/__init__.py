@@ -4,7 +4,6 @@
 
 from difflib import SequenceMatcher
 import os
-import glob
 import subprocess
 import datetime
 
@@ -55,15 +54,19 @@ ROOT_PATH = os.path.dirname(DIR_PATH)
 
 
 def all_files():
-    files = glob.glob("**/*", recursive=True)
-    for file_ in files:
-        if (
-            os.path.isfile(file_)
-            and not file_.startswith("modules/third-party")
-            and not file_.endswith("copyright.txt")
-            and not file_.endswith("copyright.js")
-        ):
-            yield file_
+    for root, subdirs, files in os.walk("."):
+        for subdir in list(subdirs):
+            if subdir.startswith("third-party"):
+                subdirs.remove(subdir)
+            elif subdir.startswith(".git"):
+                subdirs.remove(subdir)
+        for file_ in files:
+            if (
+                not file_.startswith("modules/third-party")
+                and not file_.endswith("copyright.txt")
+                and not file_.endswith("copyright.js")
+            ):
+                yield os.path.join(root, file_)
 
 
 def get_latest_date(file_):
