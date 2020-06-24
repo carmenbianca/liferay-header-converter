@@ -46,5 +46,5 @@ want the creation date, use the following commands:
 
 ```
 cd path/to/liferay-portal
-python path/to-/liferay-header-converter/replace.py --creation-date
+python path/to/liferay-header-converter/replace.py --creation-date
 ```
