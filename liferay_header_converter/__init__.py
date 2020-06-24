@@ -82,12 +82,16 @@ def get_earliest_date(file_):
     return datetime.datetime.fromisoformat(last_result)
 
 
-def replace_header(file_, year):
+def replace_header(file_, use_creation_date=False):
     with open(file_) as fp:
         contents = fp.read()
 
     for original, replacement in HEADERS.items():
         if original in contents:
+            if use_creation_date:
+                year = get_earliest_date(file_).year
+            else:
+                year = get_latest_date(file_).year
             contents = contents.replace(original, replacement.format(year=year))
             break
     else:

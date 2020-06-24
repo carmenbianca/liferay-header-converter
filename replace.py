@@ -16,12 +16,7 @@ from liferay_header_converter import (
 
 def inner(file_, use_creation_date=False):
     try:
-        if use_creation_date:
-            year = get_earliest_date(file_).year
-        else:
-            year = get_latest_date(file_).year
-
-        replace_header(file_, year)
+        replace_header(file_, use_creation_date)
         print(file_)
         return True
     except Exception:
