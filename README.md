@@ -40,3 +40,11 @@ python path/to/liferay-header-converter/replace.py
 ```
 
 That's the basic usage. All the other stuff is code to assist me in the process.
+
+The above commands use the date of the latest modification in the header. If you
+want the creation date, use the following commands:
+
+```
+cd path/to/liferay-portal
+python path/to-/liferay-header-converter/replace.py --creation-date
+```

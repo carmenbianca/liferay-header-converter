@@ -74,15 +74,21 @@ def get_latest_date(file_):
     return datetime.datetime.fromtimestamp(mtime)
 
 
-def replace_header(file_):
+def get_earliest_date(file_):
+    result = subprocess.run(
+        ["git", "log", "--follow", r"--format=%aI", file_], stdout=subprocess.PIPE
+    )
+    last_result = result.stdout.decode("utf-8").split("\n")[-2]
+    return datetime.datetime.fromisoformat(last_result)
+
+
+def replace_header(file_, year):
     with open(file_) as fp:
         contents = fp.read()
 
     for original, replacement in HEADERS.items():
         if original in contents:
-            contents = contents.replace(
-                original, replacement.format(year=get_latest_date(file_).year)
-            )
+            contents = contents.replace(original, replacement.format(year=year))
             break
     else:
         raise Exception("No header replaced")
